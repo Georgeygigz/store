@@ -18,6 +18,9 @@ target/
 *.iws
 *.iml
 *.ipr
+.env
+migrate.sh
+migrate-clean.sh
 
 ### NetBeans ###
 /nbproject/private/
