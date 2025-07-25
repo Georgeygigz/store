@@ -7,13 +7,11 @@ import com.georgeygigz.store.mappers.ProductMapper;
 import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.services.ProductService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
