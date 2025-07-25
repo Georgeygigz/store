@@ -1,0 +1,16 @@
+CREATE TABLE categories (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE products (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    category_id INTEGER REFERENCES categories(id) ON DELETE NO ACTION
+);
+
+CREATE INDEX idx_category_id ON products (category_id);
+
