@@ -7,6 +7,7 @@ import com.georgeygigz.store.exceptions.ProductNotFoundException;
 import com.georgeygigz.store.mappers.ProductMapper;
 import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.repositories.ProductRepository;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,6 +43,7 @@ public class ProductService {
         return product;
     }
 
+    @RateLimiter(name = "productService")
     @Cacheable(value=PRODUCTS_CACHE)
     public List<Product> getAllProducts(Long categoryId){
         List<Product> products;
@@ -53,6 +55,7 @@ public class ProductService {
         return products;
     }
 
+    @RateLimiter(name = "productService")
     @Cacheable(value=PRODUCTS_CACHE, key="#productId")
     public ProductDto getProduct(Long productId){
         // Check Redis blocker first

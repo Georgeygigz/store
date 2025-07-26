@@ -16,6 +16,15 @@ spring:
     type: redis
     redis:
       time-to-live: 60000 # 1 minute in milliseconds
+  resilience4j.ratelimiter:
+    configs:
+      default:
+        limitForPeriod: 10
+        limitRefreshPeriod: 1 # in sec
+        timeoutDuration: 0
+    instances:
+      productService:
+        baseConfig: default
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
