@@ -50,7 +50,6 @@ public class ProductController {
             @RequestBody ProductDto request
     ){
         return productService.updateProduct(request, productId);
-
     }
 
     @DeleteMapping("/{productId}")
