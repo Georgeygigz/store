@@ -20,7 +20,12 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ProductEventService eventService;
+    private final ProductLockService lockService;
+
+
     public static final String PRODUCTS_CACHE = "products";
+
 
     @CacheEvict(value=PRODUCTS_CACHE, allEntries = true)
     public Product addProduct(ProductDto productDto){
@@ -31,6 +36,9 @@ public class ProductService {
         var product = productMapper.toEntity(productDto);
         product.setCategory(category);
         productRepository.save(product);
+
+        //Async send message to RabbitMQ
+        eventService.sendProductCreatedEvent(product);
         return product;
     }
 
@@ -47,6 +55,11 @@ public class ProductService {
 
     @Cacheable(value=PRODUCTS_CACHE, key="#productId")
     public ProductDto getProduct(Long productId){
+        // Check Redis blocker first
+        if (lockService.isBlocked(productId)) {
+            throw new ProductNotFoundException();
+        }
+
         var product = productRepository.findById(productId).orElse(null);
         if(product == null){
             throw new ProductNotFoundException();
@@ -56,20 +69,48 @@ public class ProductService {
 
     @CacheEvict(value=PRODUCTS_CACHE, allEntries = true)
     public ProductDto updateProduct(ProductDto productDto, Long productId){
-        var product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
-        productMapper.update(productDto, product);
 
-        if (productDto.getCategoryId() != null) {
-            var category = categoryRepository.findById(productDto.getCategoryId())
-                    .orElseThrow(CategoryNotFoundException::new);
-            product.setCategory(category);
+        //Set blocker during update
+        lockService.blockProduct(productId);
+
+        try {
+            var product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+            productMapper.update(productDto, product);
+
+            if (productDto.getCategoryId() != null) {
+                var category = categoryRepository.findById(productDto.getCategoryId())
+                        .orElseThrow(CategoryNotFoundException::new);
+                product.setCategory(category);
+            }
+            productRepository.save(product);
+
+            // Async send message to RabbitMQ
+            eventService.sendProductUpdatedEvent(product);
+
+            return productMapper.toDto(product);
+        }finally {
+
+            // Release blocker after update
+            lockService.unblockProduct(productId);
         }
-        productRepository.save(product);
-        return productMapper.toDto(product);
     }
 
     @CacheEvict(value=PRODUCTS_CACHE, allEntries = true)
     public void deleteProduct(Long productId){
-        productRepository.deleteById(productId);
+
+        // Set blocker during deletion
+        lockService.blockProduct(productId);
+
+        try{
+            productRepository.deleteById(productId);
+
+            // Async send message to RabbitMQ
+            eventService.sendProductDeletedEvent(productId);
+        }finally {
+            // Release blocker after deletion
+            lockService.unblockProduct(productId);
+        }
+
     }
+
 }
