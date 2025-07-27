@@ -7,6 +7,8 @@ import com.georgeygigz.store.mappers.ProductMapper;
 import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.services.ProductService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ public class ProductController {
     private final CategoryRepository categoryRepository;
     private final ProductService productService;
     private final ProductMapper productMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+
 
     @PostMapping
     public ResponseEntity<ProductDto> addProduct(
@@ -41,6 +45,7 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public ProductDto getProduct(@PathVariable("productId") Long productId){
+        logger.info("Fetching product with ID: {}", productId);
         return productService.getProduct(productId);
     }
 
