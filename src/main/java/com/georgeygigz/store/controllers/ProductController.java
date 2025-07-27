@@ -6,6 +6,8 @@ import com.georgeygigz.store.exceptions.ProductNotFoundException;
 import com.georgeygigz.store.mappers.ProductMapper;
 import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.services.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/products")
+@Tag(name = "Products")
 public class ProductController {
     private final CategoryRepository categoryRepository;
     private final ProductService productService;
@@ -27,6 +30,7 @@ public class ProductController {
 
 
     @PostMapping
+    @Operation(summary = "Add a product")
     public ResponseEntity<ProductDto> addProduct(
             @RequestBody ProductDto request,
             UriComponentsBuilder uriBuilder
@@ -38,18 +42,21 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all products or products using categoryId")
     public Iterable<ProductDto> getAllProducts(@RequestParam(name = "categoryId", required = false) Long categoryId){
         var products = productService.getAllProducts(categoryId);
         return products.stream().map(productMapper::toDto).toList();
     }
 
     @GetMapping("/{productId}")
+    @Operation(summary = "Get a product using productId")
     public ProductDto getProduct(@PathVariable("productId") Long productId){
         logger.info("Fetching product with ID: {}", productId);
         return productService.getProduct(productId);
     }
 
     @PatchMapping("/{productId}")
+    @Operation(summary = "Update a product")
     public ProductDto updateProduct(
             @PathVariable("productId") Long productId,
             @RequestBody ProductDto request
@@ -58,6 +65,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
+    @Operation(summary = "Delete a product")
     public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId){
         productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
