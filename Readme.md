@@ -30,7 +30,7 @@ A Spring Boot RESTful API for managing products
 - [Live Project](https://store-production-ca79.up.railway.app)
 
 ##### PostMan collection 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://gigz33.postman.co/workspace/Itisha~38a44232-4636-4b10-b048-f6c4fda4457b/collection/5283750-c6d12049-3be4-44ed-b124-0ef580d2d923?action=share&creator=5283750&active-environment=5283750-91ad615d-395b-4180-8aa1-279dfd94a914)
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/5283750-c6d12049-3be4-44ed-b124-0ef580d2d923?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D5283750-c6d12049-3be4-44ed-b124-0ef580d2d923%26entityType%3Dcollection%26workspaceId%3D9ca7619c-09ab-49a2-86e0-f424b8ab5734#?env%5BProd%5D=W3sia2V5IjoiYmFzZVVybCIsInZhbHVlIjoiaHR0cHM6Ly9zdG9yZS1wcm9kdWN0aW9uLWNhNzkudXAucmFpbHdheS5hcHAiLCJlbmFibGVkIjp0cnVlLCJ0eXBlIjoiZGVmYXVsdCJ9XQ==)
 
 
 
