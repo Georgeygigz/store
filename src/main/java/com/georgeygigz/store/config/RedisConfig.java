@@ -21,7 +21,6 @@ import java.time.Duration;
 
 @Configuration
 public class RedisConfig {
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Value("${spring.cache.redis.time-to-live}")
     private long ttlInMillis;
@@ -76,14 +75,6 @@ public class RedisConfig {
         config.setPassword(password);
 
         return new LettuceConnectionFactory(config);
-    }
-
-    @PostConstruct
-    public void logRedisConnection() {
-            logger.info("Redis Host: {}", host);
-            logger.info("Redis Port: {}", port);
-            logger.info("Redis Username: {}", username);
-            logger.info("Redis Password: {}", password);
     }
 
 }
