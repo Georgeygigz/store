@@ -1,3 +1,5 @@
 spring:
+  application:
+    base-url: https://store-production-ca79.up.railway.app
   jpa:
     show-sql: false
