@@ -1,3 +1,5 @@
 spring:
+  application:
+    base-url: http://localhost:8080
   jpa:
     show-sql: true
