@@ -42,7 +42,7 @@ A Spring Boot RESTful API for managing products
 - Maven 3.9+
 - Redis
 - RabbitMQ
-- (Optional) PostgreSQL if not using H2
+- PostgreSQL
 
 ### Installation
 
