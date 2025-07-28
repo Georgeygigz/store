@@ -19,7 +19,7 @@ spring:
   resilience4j.ratelimiter:
     configs:
       default:
-        limitForPeriod: 10
+        limitForPeriod: 1
         limitRefreshPeriod: 1 # in sec
         timeoutDuration: 0
     instances:

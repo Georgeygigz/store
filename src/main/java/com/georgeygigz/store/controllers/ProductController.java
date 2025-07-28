@@ -1,22 +1,18 @@
 package com.georgeygigz.store.controllers;
 
 import com.georgeygigz.store.dtos.ProductDto;
-import com.georgeygigz.store.exceptions.CategoryNotFoundException;
-import com.georgeygigz.store.exceptions.ProductNotFoundException;
 import com.georgeygigz.store.mappers.ProductMapper;
 import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -32,7 +28,7 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Add a product")
     public ResponseEntity<ProductDto> addProduct(
-            @RequestBody ProductDto request,
+            @Valid @RequestBody ProductDto request,
             UriComponentsBuilder uriBuilder
     ){
         var product = productService.addProduct(request);
@@ -71,13 +67,4 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleCategoryNotFound(){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Category not found"));
-    }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleProductNotFound(){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Product not found"));
-    }
 }
