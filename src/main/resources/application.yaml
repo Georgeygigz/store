@@ -1,21 +1,21 @@
 spring:
   application:
     name: store
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000 # 1 minute in milliseconds
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASS}
-  jpa:
-    show-sql: true
+  profiles:
+    active: dev
   rabbitmq:
     host: ${RMQ_HOST}
     port: ${RMQ_PORT}
     username: ${RMQ_USERNAME}
     password: ${RMQ_PASSWORD}
-  cache:
-    type: redis
-    redis:
-      time-to-live: 60000 # 1 minute in milliseconds
   resilience4j.ratelimiter:
     configs:
       default:
