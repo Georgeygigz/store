@@ -26,8 +26,8 @@ A Spring Boot RESTful API for managing products
 
 ## Helpful Links
 
-- [Swagger UI](#)
-- [Live Project](#)
+- [Swagger UI](https://store-production-ca79.up.railway.app/swagger-ui/index.html#/)
+- [Live Project](https://store-production-ca79.up.railway.app)
 - [Postman Collection](#)
 
 ## Getting Started
