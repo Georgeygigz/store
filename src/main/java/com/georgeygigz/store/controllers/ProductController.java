@@ -2,7 +2,6 @@ package com.georgeygigz.store.controllers;
 
 import com.georgeygigz.store.dtos.ProductDto;
 import com.georgeygigz.store.mappers.ProductMapper;
-import com.georgeygigz.store.repositories.CategoryRepository;
 import com.georgeygigz.store.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/products")
 @Tag(name = "Products")
 public class ProductController {
-    private final CategoryRepository categoryRepository;
     private final ProductService productService;
     private final ProductMapper productMapper;
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
